@@ -1,0 +1,79 @@
+# Public core stub for the neutral XRechnung-shaped model used by the UBL
+# Invoice core template.
+#
+# Scope:
+# - XRechnung 3.0.2
+# - UBL Invoice only
+# - reduced core slice aligned with templates/ubl-invoice-core.vm
+#
+# Usage:
+# - fill only the values you have
+# - keep numeric zero as a real value, not as null
+# - use null or omission for absent values
+# - dates use YYYY-MM-DD
+
+xr:
+  process:
+    customizationId: null
+    profileId: null
+
+  invoice:
+    id: null
+    issueDate: null
+    typeCode: null
+    documentCurrencyCode: null
+    buyerReference: null
+
+  seller:
+    name: null
+    endpoint:
+      value: null
+      schemeId: null
+    address:
+      city: null
+      postalCode: null
+      countryCode: null
+    contact:
+      name: null
+      phone: null
+      email: null
+
+  buyer:
+    name: null
+    endpoint:
+      value: null
+      schemeId: null
+    address:
+      city: null
+      postalCode: null
+      countryCode: null
+
+  payment:
+    meansCode: null
+    payeeAccounts:
+      - id: null
+
+  totals:
+    lineExtensionAmount: null
+    taxExclusiveAmount: null
+    taxInclusiveAmount: null
+    payableAmount: null
+    taxAmountInDocumentCurrency: null
+
+  vatBreakdowns:
+    - taxableAmount: null
+      taxAmount: null
+      categoryCode: null
+      rate: null
+
+  lines:
+    - id: null
+      quantity: null
+      quantityUnitCode: null
+      lineExtensionAmount: null
+      price:
+        netAmount: null
+      vat:
+        categoryCode: null
+      item:
+        name: null

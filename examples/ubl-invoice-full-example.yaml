@@ -1,0 +1,262 @@
+xr:
+  process:
+    customizationId: urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0
+    profileId: urn:fdc:peppol.eu:2017:poacc:billing:01:1.0
+
+  invoice:
+    id: RE-2026-00042
+    issueDate: "2026-04-15"
+    dueDate: "2026-05-15"
+    typeCode: "380"
+    documentCurrencyCode: EUR
+    taxCurrencyCode: EUR
+    taxPointDate: "2026-04-14"
+    buyerReference: REF-4711
+    accountingCost: Kostenstelle 1000
+
+  notes:
+    - subjectCode: AAK
+      text: Abnahme erfolgt am 14.04.2026
+    - text: Vielen Dank fuer Ihren Auftrag.
+
+  invoicePeriod:
+    descriptionCode: "35"
+    startDate: "2026-04-01"
+    endDate: "2026-04-30"
+
+  projectReferenceId: PRJ-2026-07
+  contractReferenceId: VERTRAG-99
+  receiptReferenceId: WE-2026-042
+  despatchReferenceId: LFS-2026-042
+  originatorReferenceId: ANF-2026-0007
+
+  orderReference:
+    id: BEST-2026-123
+    salesOrderId: SO-9911
+
+  precedingInvoices:
+    - id: RE-2026-00017
+      issueDate: "2026-03-15"
+
+  invoiceObjectReference:
+    id: OBJ-0815
+    schemeId: "0160"
+
+  seller:
+    name: Musterlieferant GmbH
+    tradeName: Musterlieferant
+    endpoint:
+      value: https://seller.example.org/endpoint
+      schemeId: EM
+    identifiers:
+      - value: "123456789"
+        schemeId: "0088"
+    sepaCreditorId: DE98ZZZ09999999999
+    vatIdentifier: DE123456789
+    taxIdentifier: 201/999/88888
+    legalRegistrationId: HRB-12345
+    legalRegistrationIdSchemeId: "0204"
+    legalForm: Handelsregister B
+    address:
+      street: Musterstrasse 1
+      additionalStreet: Gebaeude A
+      addressLine: 2. OG
+      city: Musterstadt
+      postalCode: "10115"
+      countryCode: DE
+    contact:
+      name: Musterlieferant GmbH Kontakt
+      phone: +49-30-123456
+      email: seller@example.org
+
+  buyer:
+    name: Beispielkunde AG
+    tradeName: Beispielkunde
+    endpoint:
+      value: buyer-routing-id
+      schemeId: "0204"
+    identifiers:
+      - value: "123456789"
+        schemeId: "0088"
+    vatIdentifier: DE987654321
+    legalRegistrationId: HRB-54321
+    legalRegistrationIdSchemeId: "0204"
+    address:
+      street: Musterstrasse 1
+      additionalStreet: Gebaeude A
+      addressLine: 2. OG
+      city: Berlin
+      postalCode: "10243"
+      countryCode: DE
+    contact:
+      name: Beispielkunde AG Kontakt
+      phone: +49-30-123456
+      email: buyer@example.org
+
+  payee:
+    name: Bezahlservice GmbH
+    identifiers:
+      - value: PAYEE-42
+        schemeId: "0088"
+    sepaCreditorId: DE12ZZZ00000000001
+    legalRegistrationId: HRB-778899
+    legalRegistrationIdSchemeId: "0204"
+
+  taxRepresentative:
+    name: Steuerkanzlei Nord
+    vatIdentifier: DE112233445
+    address:
+      street: Steuerweg 5
+      addressLine: 3. Etage
+      city: Hamburg
+      postalCode: "20095"
+      countryCode: DE
+
+  delivery:
+    partyName: Wareneingang Lager A
+    actualDate: "2026-04-14"
+    location:
+      id: LOC-77
+      schemeId: "0088"
+    address:
+      street: Lagerstrasse 8
+      addressLine: Tor 3
+      city: Berlin
+      postalCode: "12435"
+      countryCode: DE
+
+  payment:
+    meansCode: "58"
+    meansText: SEPA credit transfer
+    paymentId: PMT-2026-042
+    payeeAccounts:
+      - id: DE02120300000000202051
+        name: Musterlieferant GmbH
+        bic: BYLADEM1001
+    cards:
+      - primaryAccountNumberId: 411111******1111
+        holderName: Max Beispiel
+    mandates:
+      - id: MANDATE-17
+        payerAccountId: DE89370400440532013000
+
+  paymentTerms:
+    note: Zahlbar innerhalb von 30 Tagen ohne Abzug.
+
+  documentAllowances:
+    - amount: 5.00
+      baseAmount: 100.00
+      percent: 5
+      reason: Fruehbucherrabatt
+      reasonCode: "95"
+      tax:
+        categoryCode: S
+        rate: 19
+
+  documentCharges:
+    - amount: 2.50
+      baseAmount: 100.00
+      percent: 2.5
+      reason: Verpackung
+      reasonCode: FC
+      tax:
+        categoryCode: S
+        rate: 19
+
+  totals:
+    lineExtensionAmount: 100.00
+    allowanceTotalAmount: 5.00
+    chargeTotalAmount: 2.50
+    taxExclusiveAmount: 97.50
+    taxAmountInDocumentCurrency: 18.53
+    taxAmountInTaxCurrency: 18.53
+    taxInclusiveAmount: 116.03
+    prepaidAmount: 0.00
+    payableRoundingAmount: 0.00
+    payableAmount: 116.03
+
+  vatBreakdowns:
+    - taxableAmount: 97.50
+      taxAmount: 18.53
+      categoryCode: S
+      rate: 19
+
+  supportingDocuments:
+    - id: ANLAGE-1
+      description: Leistungsnachweis April 2026
+      embedded:
+        externalUri: https://example.org/docs/leistungsnachweis-april-2026.pdf
+    - id: ANLAGE-2
+      description: Stundenzettel
+      embedded:
+        content: U3R1bmRlbnpldHRlbA==
+        mimeCode: text/plain
+        filename: stundenzettel.txt
+
+  lines:
+    - id: "1"
+      note: Leistungsposition 1
+      objectReference:
+        id: LINE-OBJ-1
+        schemeId: "0160"
+      quantity: 10
+      quantityUnitCode: HUR
+      lineExtensionAmount: 80.00
+      accountingCost: PSP-Element 0815
+      orderLineReference: "10"
+      period:
+        startDate: "2026-04-01"
+        endDate: "2026-04-10"
+      allowances:
+        - amount: 4.00
+          baseAmount: 80.00
+          percent: 5
+          reason: Rabatt
+          reasonCode: "95"
+      charges:
+        - amount: 1.60
+          baseAmount: 80.00
+          percent: 2
+          reason: Servicepauschale
+          reasonCode: FC
+      price:
+        netAmount: 8.00
+        discount:
+          amount: 0.40
+          baseAmount: 8.40
+        baseQuantity: 1
+        baseQuantityUnitCode: HUR
+      vat:
+        categoryCode: S
+        rate: 19
+      item:
+        name: Beratungsleistung
+        description: Fachberatung April
+        sellersItemId: ART-1000
+        buyersItemId: K-ART-44
+        standardId: "0401234512345"
+        standardIdSchemeId: "0160"
+        classifications:
+          - code: "81112100"
+            listId: UNSPSC
+            listVersionId: "26.0801"
+        originCountryCode: DE
+        attributes:
+          - name: Team
+            value: Consulting
+
+    - id: "2"
+      quantity: 1
+      quantityUnitCode: C62
+      lineExtensionAmount: 20.00
+      price:
+        netAmount: 20.00
+        baseQuantity: 1
+        baseQuantityUnitCode: C62
+      vat:
+        categoryCode: S
+        rate: 19
+      item:
+        name: Pauschale
+        description: Projektpauschale
+        sellersItemId: ART-2000

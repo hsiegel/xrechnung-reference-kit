@@ -1,0 +1,457 @@
+# Public full stub for the neutral XRechnung-shaped model used by the UBL
+# Invoice Velocity templates.
+#
+# Scope:
+# - XRechnung 3.0.2
+# - UBL Invoice only
+# - public intermediate model, no internal DTO details
+#
+# Usage:
+# - remove blocks you do not use
+# - keep numeric zero as a real value, not as null
+# - use null or omission for absent values
+# - dates use YYYY-MM-DD
+
+xr:
+  # BG-2
+  process:
+    # BT-24
+    customizationId: null
+    # BT-23
+    profileId: null
+
+  invoice:
+    # BT-1
+    id: null
+    # BT-2
+    issueDate: null
+    # BT-9
+    dueDate: null
+    # BT-3
+    typeCode: null
+    # BT-5
+    documentCurrencyCode: null
+    # BT-6
+    taxCurrencyCode: null
+    # BT-7
+    taxPointDate: null
+    # BT-10
+    buyerReference: null
+    # BT-19
+    accountingCost: null
+
+  # BG-1
+  notes:
+    - # BT-21
+      subjectCode: null
+      # BT-22
+      text: null
+
+  # BT-8 plus BG-14
+  invoicePeriod:
+    # BT-8
+    descriptionCode: null
+    # BT-73
+    startDate: null
+    # BT-74
+    endDate: null
+
+  # BT-11
+  projectReferenceId: null
+  # BT-12
+  contractReferenceId: null
+  # BT-15
+  receiptReferenceId: null
+  # BT-16
+  despatchReferenceId: null
+  # BT-17
+  originatorReferenceId: null
+
+  # BT-13, BT-14
+  orderReference:
+    id: null
+    salesOrderId: null
+
+  # BG-3
+  precedingInvoices:
+    - # BT-25
+      id: null
+      # BT-26
+      issueDate: null
+
+  # BT-18
+  invoiceObjectReference:
+    id: null
+    schemeId: null
+
+  # BG-4, BG-5, BG-6
+  seller:
+    # BT-27
+    name: null
+    # BT-28
+    tradeName: null
+    # BT-34
+    endpoint:
+      value: null
+      schemeId: null
+    # BT-29
+    identifiers:
+      - value: null
+        schemeId: null
+    # BT-90 when represented on seller
+    sepaCreditorId: null
+    # BT-31
+    vatIdentifier: null
+    # BT-32
+    taxIdentifier: null
+    # BT-30
+    legalRegistrationId: null
+    legalRegistrationIdSchemeId: null
+    # BT-33
+    legalForm: null
+    address:
+      # BT-35
+      street: null
+      # BT-36
+      additionalStreet: null
+      # BT-162
+      addressLine: null
+      # BT-37
+      city: null
+      # BT-38
+      postalCode: null
+      # BT-39
+      countrySubdivision: null
+      # BT-40
+      countryCode: null
+    contact:
+      # BT-41
+      name: null
+      # BT-42
+      phone: null
+      # BT-43
+      email: null
+
+  # BG-7, BG-8, BG-9
+  buyer:
+    # BT-44
+    name: null
+    # BT-45
+    tradeName: null
+    # BT-49
+    endpoint:
+      value: null
+      schemeId: null
+    # BT-46
+    identifiers:
+      - value: null
+        schemeId: null
+    # BT-48
+    vatIdentifier: null
+    # BT-47
+    legalRegistrationId: null
+    legalRegistrationIdSchemeId: null
+    address:
+      # BT-50
+      street: null
+      # BT-51
+      additionalStreet: null
+      # BT-163
+      addressLine: null
+      # BT-52
+      city: null
+      # BT-53
+      postalCode: null
+      # BT-54
+      countrySubdivision: null
+      # BT-55
+      countryCode: null
+    contact:
+      # BT-56
+      name: null
+      # BT-57
+      phone: null
+      # BT-58
+      email: null
+
+  # BG-10
+  payee:
+    # BT-59
+    name: null
+    # BT-60
+    identifiers:
+      - value: null
+        schemeId: null
+    # BT-90 when represented on payee
+    sepaCreditorId: null
+    # BT-61
+    legalRegistrationId: null
+    legalRegistrationIdSchemeId: null
+
+  # BG-11, BG-12
+  taxRepresentative:
+    # BT-62
+    name: null
+    # BT-63
+    vatIdentifier: null
+    address:
+      # BT-64
+      street: null
+      # BT-65
+      additionalStreet: null
+      # BT-164
+      addressLine: null
+      # BT-66
+      city: null
+      # BT-67
+      postalCode: null
+      # BT-68
+      countrySubdivision: null
+      # BT-69
+      countryCode: null
+
+  # BG-13 and BG-15
+  delivery:
+    # BT-70
+    partyName: null
+    # BT-72
+    actualDate: null
+    # BT-71
+    location:
+      id: null
+      schemeId: null
+    address:
+      # BT-75
+      street: null
+      # BT-76
+      additionalStreet: null
+      # BT-165
+      addressLine: null
+      # BT-77
+      city: null
+      # BT-78
+      postalCode: null
+      # BT-79
+      countrySubdivision: null
+      # BT-80
+      countryCode: null
+
+  # BG-16, BG-17, BG-18, BG-19
+  payment:
+    # BT-81
+    meansCode: null
+    # BT-82
+    meansText: null
+    # BT-83
+    paymentId: null
+    payeeAccounts:
+      - # BT-84
+        id: null
+        # BT-85
+        name: null
+        # BT-86
+        bic: null
+    cards:
+      - # BT-87
+        primaryAccountNumberId: null
+        # BT-88
+        holderName: null
+    mandates:
+      - # BT-89
+        id: null
+        # BT-91
+        payerAccountId: null
+
+  # BT-20
+  paymentTerms:
+    note: null
+
+  # BG-20
+  documentAllowances:
+    - # BT-92
+      amount: null
+      # BT-93
+      baseAmount: null
+      # BT-94
+      percent: null
+      # BT-97
+      reason: null
+      # BT-98
+      reasonCode: null
+      tax:
+        # BT-95
+        categoryCode: null
+        # BT-96
+        rate: null
+        # optional helper shape aligned with BG-23
+        exemptionReason: null
+        exemptionReasonCode: null
+
+  # BG-21
+  documentCharges:
+    - # BT-99
+      amount: null
+      # BT-100
+      baseAmount: null
+      # BT-101
+      percent: null
+      # BT-104
+      reason: null
+      # BT-105
+      reasonCode: null
+      tax:
+        # BT-102
+        categoryCode: null
+        # BT-103
+        rate: null
+        # optional helper shape aligned with BG-23
+        exemptionReason: null
+        exemptionReasonCode: null
+
+  # BG-22
+  totals:
+    # BT-106
+    lineExtensionAmount: null
+    # BT-107
+    allowanceTotalAmount: null
+    # BT-108
+    chargeTotalAmount: null
+    # BT-109
+    taxExclusiveAmount: null
+    # BT-110
+    taxAmountInDocumentCurrency: null
+    # BT-111
+    taxAmountInTaxCurrency: null
+    # BT-112
+    taxInclusiveAmount: null
+    # BT-113
+    prepaidAmount: null
+    # BT-114
+    payableRoundingAmount: null
+    # BT-115
+    payableAmount: null
+
+  # BG-23
+  vatBreakdowns:
+    - # BT-116
+      taxableAmount: null
+      # BT-117
+      taxAmount: null
+      # BT-118
+      categoryCode: null
+      # BT-119
+      rate: null
+      # BT-120
+      exemptionReason: null
+      # BT-121
+      exemptionReasonCode: null
+
+  # BG-24
+  supportingDocuments:
+    - # BT-122
+      id: null
+      # BT-123
+      description: null
+      embedded:
+        # BT-124
+        externalUri: null
+        # BT-125
+        content: null
+        mimeCode: null
+        filename: null
+
+  # BG-25..BG-32
+  lines:
+    - # BT-126
+      id: null
+      # BT-127
+      note: null
+      # BT-128
+      objectReference:
+        id: null
+        schemeId: null
+      # BT-129
+      quantity: null
+      # BT-130
+      quantityUnitCode: null
+      # BT-131
+      lineExtensionAmount: null
+      # BT-133
+      accountingCost: null
+      # BT-132
+      orderLineReference: null
+      # BG-26
+      period:
+        # BT-134
+        startDate: null
+        # BT-135
+        endDate: null
+      # BG-27
+      allowances:
+        - # BT-136
+          amount: null
+          # BT-137
+          baseAmount: null
+          # BT-138
+          percent: null
+          # BT-139
+          reason: null
+          # BT-140
+          reasonCode: null
+      # BG-28
+      charges:
+        - # BT-141
+          amount: null
+          # BT-142
+          baseAmount: null
+          # BT-143
+          percent: null
+          # BT-144
+          reason: null
+          # BT-145
+          reasonCode: null
+      # BG-29
+      price:
+        # BT-146
+        netAmount: null
+        discount:
+          # BT-147
+          amount: null
+          # BT-148
+          baseAmount: null
+        # BT-149
+        baseQuantity: null
+        # BT-150
+        baseQuantityUnitCode: null
+      # BG-30
+      vat:
+        # BT-151
+        categoryCode: null
+        # BT-152
+        rate: null
+      # BG-31 and BG-32
+      item:
+        # BT-153
+        name: null
+        # BT-154
+        description: null
+        # BT-155
+        sellersItemId: null
+        # BT-156
+        buyersItemId: null
+        # BT-157
+        standardId: null
+        standardIdSchemeId: null
+        # BT-158
+        classifications:
+          - code: null
+            listId: null
+            listVersionId: null
+        # BT-159
+        originCountryCode: null
+        # BG-32
+        attributes:
+          - # BT-160
+            name: null
+            # BT-161
+            value: null

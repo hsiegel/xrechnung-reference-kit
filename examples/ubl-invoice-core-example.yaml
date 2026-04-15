@@ -1,0 +1,65 @@
+xr:
+  process:
+    customizationId: urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0
+    profileId: urn:fdc:peppol.eu:2017:poacc:billing:01:1.0
+
+  invoice:
+    id: "1234567"
+    issueDate: "2018-04-13"
+    typeCode: "380"
+    documentCurrencyCode: EUR
+    buyerReference: 90000000-03083-72
+
+  seller:
+    name: "[Seller name]"
+    endpoint:
+      value: rechnungsausgang@test.com
+      schemeId: EM
+    address:
+      city: "[Seller city]"
+      postalCode: "12345"
+      countryCode: DE
+    contact:
+      name: Tim Tester
+      phone: "012 3456789"
+      email: tim.tester@test.com
+
+  buyer:
+    name: "[Buyer name]"
+    endpoint:
+      value: rechnungseingang@test.de
+      schemeId: EM
+    address:
+      city: "[Buyer city]"
+      postalCode: "98765"
+      countryCode: DE
+
+  payment:
+    meansCode: "58"
+    payeeAccounts:
+      - id: DE75512108001245126199
+
+  totals:
+    lineExtensionAmount: 4743.75
+    taxExclusiveAmount: 4743.75
+    taxInclusiveAmount: 4743.75
+    payableAmount: 4743.75
+    taxAmountInDocumentCurrency: 0
+
+  vatBreakdowns:
+    - taxableAmount: 4743.75
+      taxAmount: 0
+      categoryCode: O
+      rate: 0
+
+  lines:
+    - id: "1"
+      quantity: 30
+      quantityUnitCode: XPP
+      lineExtensionAmount: 4743.75
+      price:
+        netAmount: 158.125
+      vat:
+        categoryCode: O
+      item:
+        name: Beratung

@@ -1,0 +1,536 @@
+schema_version: 0.1
+artifact: xrechnung-ubl-invoice-core
+status: draft
+syntax: ubl-inv
+
+sources:
+  bundle_readme: ../bundle-docs/xrechnung/bundle/README.md
+  model_readme: ../bundle-docs/xrechnung/model/README.md
+  semox_model: ../bundle-docs/xrechnung/model/semox/xrechnung-cius-model.xml
+  testsuite_readme: ../bundle-docs/xrechnung/testsuite/README.md
+  testsuite_development: ../bundle-docs/xrechnung/testsuite/doc/development.md
+  minimal_ubl_example: ../bundle-docs/xrechnung/testsuite/instances/technical-cases/cius/01.05_minimal_test_ubl.xml
+
+scope:
+  description: >
+    Public mapping from a neutral XRechnung-shaped model to UBL Invoice.
+    Internal DTOs are intentionally out of scope.
+  included_terms:
+    - BT-1
+    - BT-2
+    - BT-3
+    - BT-5
+    - BT-10
+    - BT-23
+    - BT-24
+    - BG-4
+    - BG-5
+    - BG-6
+    - BG-7
+    - BG-8
+    - BG-16
+    - BG-17
+    - BG-22
+    - BG-23
+    - BG-25
+    - BG-29
+    - BG-30
+    - BG-31
+
+conventions:
+  public_model:
+    description: >
+      Paths under public_path form a public, neutral invoice model that can be
+      produced from any internal DTO layer.
+  root:
+    element: Invoice
+    namespace: urn:oasis:names:specification:ubl:schema:xsd:Invoice-2
+    namespaces:
+      cac: urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2
+      cec: urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2
+      cbc: urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2
+  renderer_rules:
+    - "XML has no native null for these business values; missing optional values are rendered by omitting the element or attribute."
+    - "Rendering runs in draft-tolerant mode. Missing business values do not abort rendering; the affected element or attribute is simply omitted."
+    - "Business requiredness is not enforced inside this template contract. Missing required content is expected to be reported by a later validation or diagnostics step."
+    - "Blank strings should be normalized before rendering. In practice, blank is treated like absent unless a field is explicitly allowed to be blank."
+    - "Numeric zero is a present value and must still render, for example VAT amounts or rates equal to 0."
+    - "Optional groups render only when at least one relevant child value is present."
+    - "Repeating groups render once per prepared entry that has at least one renderable child."
+    - "Optional attributes render only together with their parent element."
+    - "All amount rows with currency_source: invoice.documentCurrencyCode render @currencyID from BT-5."
+    - "BT-111 is not part of this first core file; if later used, it renders @currencyID from BT-6."
+    - "All quantity rows render @unitCode from their sibling attribute row."
+    - "Identifier components with component: scheme-id render as @schemeID on the same UBL element."
+    - "VAT category containers in BG-23 and BG-30 always include cac:TaxScheme/cbc:ID = VAT."
+    - "The renderer must merge common UBL ancestors from ubl_path segments, for example a single cac:TaxTotal wrapper for BT-110 and all BG-23 entries."
+    - "This file captures structure and render hints, not arithmetic. Totals and VAT breakdowns must be prepared before Velocity."
+    - "The reference core template is self-contained and embeds its required macros directly."
+    - "templates/ubl-pattern-library.vm remains as a documentation/reference source, not as a runtime dependency."
+    - "The reference core template defines the core cut by selected top-level groups; shared macros may still emit optional child values within those groups when present."
+
+rows:
+  - public_path: process
+    term: BG-2
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice
+    render_when: always
+
+  - public_path: invoice.id
+    term: BT-1
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cbc:ID
+    render_when: always
+
+  - public_path: invoice.issueDate
+    term: BT-2
+    kind: value
+    cardinality: 1..1
+    datatype: en16931-date
+    ubl_path: /Invoice/cbc:IssueDate
+    format: date-yyyy-mm-dd
+    render_when: always
+
+  - public_path: invoice.typeCode
+    term: BT-3
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cbc:InvoiceTypeCode
+    render_when: always
+
+  - public_path: invoice.documentCurrencyCode
+    term: BT-5
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cbc:DocumentCurrencyCode
+    render_when: always
+
+  - public_path: invoice.buyerReference
+    term: BT-10
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cbc:BuyerReference
+    render_when: always
+
+  - public_path: process.profileId
+    term: BT-23
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cbc:ProfileID
+    render_when: always
+    example: urn:fdc:peppol.eu:2017:poacc:billing:01:1.0
+
+  - public_path: process.customizationId
+    term: BT-24
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cbc:CustomizationID
+    render_when: always
+    example: urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0
+
+  - public_path: seller
+    term: BG-4
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party
+    render_when: always
+
+  - public_path: seller.name
+    term: BT-27
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName
+    render_when: always
+
+  - public_path: seller.endpoint.value
+    term: BT-34
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cbc:EndpointID
+    render_when: always
+
+  - public_path: seller.endpoint.schemeId
+    term: BT-34
+    component: scheme-id
+    kind: attribute
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cbc:EndpointID/@schemeID
+    attr_of: seller.endpoint.value
+    render_when: always
+
+  - public_path: seller.address
+    term: BG-5
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:PostalAddress
+    render_when: always
+
+  - public_path: seller.address.city
+    term: BT-37
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName
+    render_when: always
+
+  - public_path: seller.address.postalCode
+    term: BT-38
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone
+    render_when: always
+
+  - public_path: seller.address.countryCode
+    term: BT-40
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode
+    render_when: always
+
+  - public_path: seller.contact
+    term: BG-6
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:Contact
+    render_when: always
+
+  - public_path: seller.contact.name
+    term: BT-41
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:Contact/cbc:Name
+    render_when: always
+
+  - public_path: seller.contact.phone
+    term: BT-42
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:Contact/cbc:Telephone
+    render_when: always
+
+  - public_path: seller.contact.email
+    term: BT-43
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingSupplierParty/cac:Party/cac:Contact/cbc:ElectronicMail
+    render_when: always
+
+  - public_path: buyer
+    term: BG-7
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party
+    render_when: always
+
+  - public_path: buyer.name
+    term: BT-44
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName
+    render_when: always
+
+  - public_path: buyer.endpoint.value
+    term: BT-49
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cbc:EndpointID
+    render_when: always
+
+  - public_path: buyer.endpoint.schemeId
+    term: BT-49
+    component: scheme-id
+    kind: attribute
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cbc:EndpointID/@schemeID
+    attr_of: buyer.endpoint.value
+    render_when: always
+
+  - public_path: buyer.address
+    term: BG-8
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cac:PostalAddress
+    render_when: always
+
+  - public_path: buyer.address.city
+    term: BT-52
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:CityName
+    render_when: always
+
+  - public_path: buyer.address.postalCode
+    term: BT-53
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:PostalZone
+    render_when: always
+
+  - public_path: buyer.address.countryCode
+    term: BT-55
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode
+    render_when: always
+
+  - public_path: payment
+    term: BG-16
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:PaymentMeans
+    render_when: always
+
+  - public_path: payment.meansCode
+    term: BT-81
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:PaymentMeans/cbc:PaymentMeansCode
+    render_when: always
+
+  - public_path: payment.payeeAccounts
+    term: BG-17
+    kind: group
+    cardinality: 0..n
+    datatype: complex
+    ubl_path: /Invoice/cac:PaymentMeans/cac:PayeeFinancialAccount
+    render_when: when_present
+    note: >
+      Typically relevant for transfer-like payment means. If this group is rendered,
+      BT-84 becomes mandatory by business rules.
+
+  - public_path: payment.payeeAccounts[].id
+    term: BT-84
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:ID
+    render_when: when_parent_rendered
+
+  - public_path: totals
+    term: BG-22
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:LegalMonetaryTotal
+    render_when: always
+
+  - public_path: totals.lineExtensionAmount
+    term: BT-106
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: totals.taxExclusiveAmount
+    term: BT-109
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: totals.taxInclusiveAmount
+    term: BT-112
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: totals.payableAmount
+    term: BT-115
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: totals.taxAmountInDocumentCurrency
+    term: BT-110
+    kind: value
+    cardinality: 0..1
+    datatype: amount
+    ubl_path: /Invoice/cac:TaxTotal/cbc:TaxAmount[@currencyID = /Invoice/cbc:DocumentCurrencyCode]
+    currency_source: invoice.documentCurrencyCode
+    render_when: derived
+    note: >
+      Optional in the SeMoX structure, but usually treated as the derived sum of all
+      BG-23 tax amounts in document currency.
+
+  - public_path: taxTotal
+    kind: synthetic-group
+    cardinality: 0..1
+    datatype: complex
+    ubl_path: /Invoice/cac:TaxTotal
+    render_when: when_children_present
+    note: >
+      UBL wrapper shared by BT-110 and BG-23. This node has no own BT/BG term in
+      the public model and exists only to make tree generation explicit.
+
+  - public_path: vatBreakdowns
+    term: BG-23
+    kind: group
+    cardinality: 1..n
+    datatype: complex
+    ubl_path: /Invoice/cac:TaxTotal/cac:TaxSubtotal
+    render_when: for_each
+
+  - public_path: vatBreakdowns[].taxableAmount
+    term: BT-116
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: vatBreakdowns[].taxAmount
+    term: BT-117
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: vatBreakdowns[].categoryCode
+    term: BT-118
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:ID
+    render_when: always
+
+  - public_path: vatBreakdowns[].rate
+    term: BT-119
+    kind: value
+    cardinality: 1..1
+    datatype: percentage
+    ubl_path: /Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:Percent
+    render_when: always
+
+  - public_path: lines
+    term: BG-25
+    kind: group
+    cardinality: 1..n
+    datatype: complex
+    ubl_path: /Invoice/cac:InvoiceLine
+    render_when: for_each
+
+  - public_path: lines[].id
+    term: BT-126
+    kind: value
+    cardinality: 1..1
+    datatype: identifier
+    ubl_path: /Invoice/cac:InvoiceLine/cbc:ID
+    render_when: always
+
+  - public_path: lines[].quantity
+    term: BT-129
+    kind: value
+    cardinality: 1..1
+    datatype: quantity
+    ubl_path: /Invoice/cac:InvoiceLine/cbc:InvoicedQuantity
+    render_when: always
+
+  - public_path: lines[].quantityUnitCode
+    term: BT-130
+    kind: attribute
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:InvoiceLine/cbc:InvoicedQuantity/@unitCode
+    attr_of: lines[].quantity
+    render_when: always
+
+  - public_path: lines[].lineExtensionAmount
+    term: BT-131
+    kind: value
+    cardinality: 1..1
+    datatype: amount
+    ubl_path: /Invoice/cac:InvoiceLine/cbc:LineExtensionAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: lines[].price
+    term: BG-29
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:InvoiceLine/cac:Price
+    render_when: always
+
+  - public_path: lines[].price.netAmount
+    term: BT-146
+    kind: value
+    cardinality: 1..1
+    datatype: upa
+    ubl_path: /Invoice/cac:InvoiceLine/cac:Price/cbc:PriceAmount
+    currency_source: invoice.documentCurrencyCode
+    render_when: always
+
+  - public_path: lines[].vat
+    term: BG-30
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory
+    render_when: always
+
+  - public_path: lines[].vat.categoryCode
+    term: BT-151
+    kind: value
+    cardinality: 1..1
+    datatype: code
+    ubl_path: /Invoice/cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:ID
+    render_when: always
+
+  - public_path: lines[].item
+    term: BG-31
+    kind: group
+    cardinality: 1..1
+    datatype: complex
+    ubl_path: /Invoice/cac:InvoiceLine/cac:Item
+    render_when: always
+
+  - public_path: lines[].item.name
+    term: BT-153
+    kind: value
+    cardinality: 1..1
+    datatype: text
+    ubl_path: /Invoice/cac:InvoiceLine/cac:Item/cbc:Name
+    render_when: always

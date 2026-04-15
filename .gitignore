@@ -1,0 +1,4 @@
+velocity-runner/target/
+*.class
+.codex
+.DS_Store
