@@ -73,7 +73,7 @@ Diese Arbeitsbasis deckt aktuell `XRechnung 3.0.2` fuer `UBL Invoice` ab.
 ## License
 
 Der eigene Quell- und Dokumentationsanteil dieses Repos steht unter
-[MIT](./LICENSE.md).
+[0BSD](./LICENSE.md).
 
 Die unter `bundle-docs/` abgelegten Referenzartefakte stammen aus externen
 offiziellen Bundles und behalten ihre jeweiligen Original-Lizenz- und
